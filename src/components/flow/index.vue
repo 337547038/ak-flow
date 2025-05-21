@@ -22,8 +22,7 @@ import importDialog from "./components/importDialog.vue"
 import Drawer from './components/drawer.vue'
 import registerNode from './node/index'
 import Legend from './components/legend.vue'
-
-import {useRoute} from 'vue-router'
+import {anyType} from './types'
 
 const props = withDefaults(
     defineProps<{
@@ -165,23 +164,24 @@ const controlClick = (type: string) => {
 const undoDisable = ref(true)
 const redoDisable = ref(true)
 const flowEvent = () => {
-  akFlow.value.on('history:change', ({data: {undoAble, redoAble}}) => {
-    undoDisable.value = !undoAble
-    redoDisable.value = !redoAble
-  })
-  akFlow.value.on('node:click', ({data}) => {
+  akFlow.value.on('history:change', ({data}: anyType) => {
+        undoDisable.value = !data.undoAble
+        redoDisable.value = !data.redoAble
+      }
+  )
+  akFlow.value.on('node:click', ({data}: anyType) => {
     // console.log(data)
     // 用户任务和条件判断才弹出
     if (['start', 'task', 'end'].includes(data.type)) {
       setPropertiesText(data)
     }
   })
-  akFlow.value.on('edge:click', ({data}) => {
+  akFlow.value.on('edge:click', ({data}: anyType) => {
     setPropertiesText(data)
   })
 }
 
-const setPropertiesText = (data) => {
+const setPropertiesText = (data: anyType) => {
 
   drawerEl.value.open(data, (properties: { [key: string]: number | string | boolean }, text: string) => {
     let updateVal = properties
@@ -202,7 +202,7 @@ const setPropertiesText = (data) => {
  * @param data
  * data:{history:[],active:[]}
  */
-const setStatus = (data) => {
+const setStatus = (data: anyType) => {
   for (let key in data) {
     if (data[key]?.length) {
       for (let id in data[key]) {
@@ -212,11 +212,8 @@ const setStatus = (data) => {
   }
 }
 //渲染流程图
-const render = (data) => {
+const render = (data: anyType) => {
   akFlow.value.render(data)
-}
-// 根据节点id设置高亮
-const setHighLight = () => {
 }
 
 defineExpose({render, setStatus})

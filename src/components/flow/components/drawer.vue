@@ -41,7 +41,7 @@
             <div>· 若审批人离职，会自动转交给审批人的上级代为处理</div>
           </div>
         </template>
-        <template v-else-if="nodeType === 'polyline'">
+        <template v-else-if="nodeType === 'connection'">
           <el-form-item>
             <div>条件规则</div>
             <el-input type="textarea" :rows="5" v-model="flowData.expr"/>
