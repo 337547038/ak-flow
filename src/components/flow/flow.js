@@ -31371,7 +31371,7 @@ const Sy = P5(aa, "$message"), p8 = { class: "content" }, v8 = { class: "btn" },
                     wt("div", null, "· 审批人为空时，自动跳过"),
                     wt("div", null, "· 若审批人离职，会自动转交给审批人的上级代为处理")
                   ], -1))
-                ], 64)) : i.value === "polyline" ? (At(), Kt(Wa, { key: 1 }, [
+                ], 64)) : i.value === "connection" ? (At(), Kt(Wa, { key: 1 }, [
                   Be(g, null, {
                     default: qe(() => [
                       v[10] || (v[10] = wt("div", null, "条件规则", -1)),
@@ -31719,9 +31719,12 @@ const U8 = {
           break;
       }
     }, d = pt(!0), c = pt(!0), f = () => {
-      i.value.on("history:change", ({ data: { undoAble: g, redoAble: y } }) => {
-        d.value = !g, c.value = !y;
-      }), i.value.on("node:click", ({ data: g }) => {
+      i.value.on(
+        "history:change",
+        ({ data: g }) => {
+          d.value = !g.undoAble, c.value = !g.redoAble;
+        }
+      ), i.value.on("node:click", ({ data: g }) => {
         ["start", "task", "end"].includes(g.type) && h(g);
       }), i.value.on("edge:click", ({ data: g }) => {
         h(g);
