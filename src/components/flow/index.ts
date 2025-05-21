@@ -1,3 +1,4 @@
-import Flow from './index.vue'
+import Flow from './flow'
+import './flow.css'
 
 export default Flow
