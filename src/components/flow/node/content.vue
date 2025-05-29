@@ -9,22 +9,24 @@
 </template>
 
 <script setup lang="ts">
-import {reactive,computed} from 'vue'
+import {reactive, computed} from 'vue'
 import {getNodeStroke} from '../tools'
 
 const state = reactive({
   nodeName: '',
   userName: '',
   status: '',
+  nodeType: ''
 })
 
-const getThemeColor=computed(() => getNodeStroke(state.status))
+const getThemeColor = computed(() => getNodeStroke(state.status, state.nodeType))
 
 
-const updateProps = ({nodeName, userName, status}) => {
+const updateProps = ({nodeName, userName, status, nodeType}) => {
   state.nodeName = nodeName
   state.userName = userName
   state.status = status
+  state.nodeType = nodeType // 节点类型，用于区分用户任务和系统任务，使用不同的样式
 }
 defineExpose({updateProps})
 </script>

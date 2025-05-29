@@ -18,7 +18,8 @@ import Connection from "./connection"
 export default (lf: any) => {
     lf.register(Start)
     lf.register(End)
-    lf.register(Task)
+    lf.register({...Task, type: 'userTask'}) // 用户任务用于节点审批
+    lf.register({...Task, type: 'sysTask'}) // 系统任务，用于抄送等不需审批
     lf.register(Condition)
     lf.register(SubProcess)
     lf.register(Connection)

@@ -1,7 +1,7 @@
 <template>
   <div class="flow-container">
     <div id="container" ref="containerEl" class="flow-main"></div>
-    <ControlMenu @click="controlClick" :undoAble="undoDisable" :redoAble="redoDisable"/>
+    <ControlMenu @click="controlClick" :undoAble="undoDisable" :redoAble="redoDisable" :isSilentMode="isSilentMode"/>
     <DataDialog ref="dataDialogEl"/>
     <Drawer ref="drawerEl" :disabled="isSilentMode"/>
     <importDialog ref="importDataEl"/>
@@ -32,6 +32,10 @@ const props = withDefaults(
       isSilentMode: false //只读模式
     }
 )
+
+const emits = defineEmits<{
+  (e: 'submitClick', value: string): void
+}>()
 
 const containerEl = ref()
 const akFlow = ref()
@@ -85,16 +89,17 @@ const initFlow = () => {
 
   // 注册自定义节点
   registerNode(lf)
-  lf.render()
-  /*  lf.render({
-      "nodes": [{
-        "id": "32c0db54-7b9c-42d5-b4bb-9b8407f48ec1",
-        "type": "condition",
-        "x": 355,
-        "y": 301,
-        "properties": {"width": 100, "height": 100}
-      }], "edges": []
-    })*/
+  // lf.render()
+  lf.render({
+    "nodes": [{
+      "id": "start",
+      "type": "start",
+      "x": 394,
+      "y": 335,
+      "properties": {"width": 40, "height": 40},
+      "text": {"x": 394, "y": 335, "value": "开始"}
+    }], "edges": []
+  })
   // 添加左则拖拽面板菜单
 
   if (!props.isSilentMode) {
@@ -154,7 +159,7 @@ const controlClick = (type: string) => {
       })
       break
     case 'save':
-      // todo
+      emits('submitClick', JSON.stringify(akFlow.value.getGraphData()))
       break
     default:
       break
@@ -172,7 +177,7 @@ const flowEvent = () => {
   akFlow.value.on('node:click', ({data}: anyType) => {
     // console.log(data)
     // 用户任务和条件判断才弹出
-    if (['start', 'task', 'end'].includes(data.type)) {
+    if (['start', 'userTask', 'sysTask', 'end'].includes(data.type)) {
       setPropertiesText(data)
     }
   })
@@ -186,7 +191,7 @@ const setPropertiesText = (data: anyType) => {
   drawerEl.value.open(data, (properties: { [key: string]: number | string | boolean }, text: string) => {
     let updateVal = properties
     // 自定义的task时，显示名称同时更新到properties,
-    if (data.type === 'task' && text) {
+    if (['userTask', 'sysTask'].includes(data.type) && text) {
       updateVal = {...properties, nodeName: text}
     }
     // 编辑模式不修改保存
@@ -203,9 +208,12 @@ const setPropertiesText = (data: anyType) => {
  * data:{history:[],active:[]}
  */
 const setStatus = (data: anyType) => {
+  console.log(data.includes)
   for (let key in data) {
     if (data[key]?.length) {
       for (let id in data[key]) {
+        console.log("key")
+        console.log(data[key][id])
         akFlow.value.setProperties(data[key][id], {status: key});
       }
     }

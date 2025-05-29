@@ -15,6 +15,8 @@
   </div>
 </template>
 <script setup lang="ts">
+/*保存用户登录信息*/
+window.localStorage.setItem("userInfo",JSON.stringify({userId: 4, userName: 'user'}))
 </script>
 <style scoped>
 .container {

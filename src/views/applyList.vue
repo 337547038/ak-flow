@@ -21,11 +21,10 @@ const click = (row) => {
 }
 const dataList = ref([])
 const getDataList = () => {
-  getRequest('getFlow')
-      .then((data) => {
-        dataList.value = data.reduce((acc, item) => {
+  getRequest('getDesignFlow',{})
+      .then(({list}) => {
+        dataList.value = list.reduce((acc, item) => {
           const classify = item.classify;
-
           if (!acc[classify]) {
             acc[classify] = [];
           }

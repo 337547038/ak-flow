@@ -12,7 +12,7 @@
       <el-button @click="controlClick('data')">查看数据</el-button>
       <el-button @click="controlClick('map')">查看缩略图</el-button>
       <el-button @click="controlClick('import')">导入</el-button>
-      <el-button @click="controlClick('save')">保存</el-button>
+      <el-button @click="controlClick('save')" v-if="!isSilentMode">保存</el-button>
     </el-button-group>
   </div>
 </template>
@@ -23,8 +23,11 @@ withDefaults(
     defineProps<{
       undoAble: boolean
       redoAble: boolean
+      isSilentMode?: boolean
     }>(),
-    {}
+    {
+      isSilentMode:false
+    }
 )
 
 const emits = defineEmits<{

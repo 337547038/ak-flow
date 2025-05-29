@@ -1,19 +1,23 @@
 /**
  * 返回节点颜色
- * state 当前节点状态 history已同意处理 active当前 danger拒绝 info条件分支时无需处理
+ * state 当前节点状态 history已同意处理 active当前 danger拒绝 includes审批路线节点
  */
-export const getNodeStroke = (state: string | undefined) => {
+export const getNodeStroke = (state: string | undefined, nodeType?: string) => {
     switch (state) {
         case 'history':
-            return 'rgb(40, 199, 163)'
+            return '#3ba272'
         case 'active':
-            return 'rgb(230, 162, 60)'
+            return '#fc8452'
         case 'danger':
-            return 'rgb(245, 108, 108)'
-        case 'info':
-            return 'rgb(144, 147, 153)'
+            return '#f00'
+        case 'includes':
+            return '#91cc75'
         default:
-            return '#1b7fff'
+            if (nodeType === 'sysTask') {
+                return '#73c0de'
+            } else {
+                return '#1b7fff'
+            }
     }
 
 }

@@ -9,7 +9,7 @@ class UserTaskModel extends HtmlNodeModel {
     initNodeData(data: any) {
         super.initNodeData(data)
         this.properties.width = 120
-        this.text.value = data.text?.value || '用户任务'
+        //this.text.value = data.text?.value || data.type === 'userTask' ? '用户任务' : '系统任务'
         // 显示的名称，统一取text.value;因updateText不会触动setHtml事件更新到content.vue
         // setProperties会更新，因此这里同时写进properties.nodeName
         this.properties.nodeName = this.text.value
@@ -35,7 +35,12 @@ class UserTaskView extends HtmlNode {
     setHtml(nodeEl: HTMLElement) {
         const properties = this.props.model.getProperties()
         //参与人员将字段名joinName追加到properties里
-        const props = {nodeName: properties.nodeName, userName: properties.joinName, status: properties.status}
+        const props = {
+            nodeName: properties.nodeName,
+            userName: properties.joinName,
+            status: properties.status,
+            nodeType: this.props.model.type // userTask/sysTask两种
+        }
         if (!this.isMounted) {
             this.isMounted = true
             const el: HTMLElement = document.createElement('div');
@@ -52,7 +57,7 @@ class UserTaskView extends HtmlNode {
 }
 
 export default {
-    type: "task",
+    // type: "task",
     view: UserTaskView,
     model: UserTaskModel,
 };

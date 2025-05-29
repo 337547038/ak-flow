@@ -6,12 +6,30 @@
     <el-table-column
         type="selection"
         width="55"/>
-    <el-table-column prop="title" label="标题"></el-table-column>
-    <el-table-column prop="name" label="发起人"></el-table-column>
-    <el-table-column prop="date" label="发起时间" width="180"></el-table-column>
-    <el-table-column prop="checkName" label="当前审批人"></el-table-column>
-    <el-table-column prop="status" label="状态"></el-table-column>
-    <el-table-column prop="flow" label="流程类型"></el-table-column>
+    <el-table-column prop="title" label="标题">
+      <template #default="{row}">
+        {{ getTitle(row) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="userName" label="发起人">
+      <template #default="{row}">
+        {{ dict[row.userId] }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="date" label="抄送时间" width="180">
+      <template #default="{row}">
+        {{ dateFormatting(row.dateTime) }}
+      </template>
+    </el-table-column>
+    <!--    <el-table-column prop="checkName" label="当前审批人"></el-table-column>
+        <el-table-column prop="status" label="状态"></el-table-column>-->
+    <el-table-column label="节点名称" prop="nodeName">
+    </el-table-column>
+    <el-table-column prop="classify" label="流程类型">
+      <template #default="{row}">
+        {{ flowClassify[row.d_classify] }}
+      </template>
+    </el-table-column>
     <el-table-column label="操作">
       <template #default="{row}">
         <el-button link type="primary" @click="detailClick(row)">详情</el-button>
@@ -24,58 +42,40 @@
 </template>
 
 <script setup lang="ts">
-import {ref, nextTick} from 'vue'
+import {ref, nextTick, onMounted} from 'vue'
 import flowForm from './components/flowDetail.vue'
+import {dateFormatting, flowClassify} from "@/utils";
+import getRequest from "@/api";
 
 const flowFormEl = ref()
 
-const tableData = ref([
-  {
-    title: '张三发起的请假流程',
-    name: '张三',
-    date: '1991-01-01 00:00:00',
-    status: '进行中',
-    flow: '调休假审批',
-    checkName: '王总',
-    id: 1
-  },
-  {
-    title: '张三发起的报销申请',
-    name: '张三',
-    date: '1991-01-01 00:00:00',
-    status: '已完成',
-    flow: '报销申请',
-    checkName: '',
-    id: 2
-  },
-  {
-    title: '张三发起的补卡审批',
-    name: '张三',
-    date: '1991-01-01 00:00:00',
-    status: '已撤回',
-    flow: '补卡审批',
-    checkName: '',
-    id: 3
-  },
-  {
-    title: '张三发起的加班申请',
-    name: '张三',
-    date: '1991-01-01 00:00:00',
-    status: '已拒绝',
-    flow: '加班申请',
-    checkName: '',
-    id: 4
-  }
-])
+const getTitle = (row: { [key: string]: any }) => {
+  return `${dict.value[row.userId]}发起的${row.d_name}`
+}
+
+
+const tableData = ref([])
+const dict = ref({})
 
 const visible = ref(false)
 const detailClick = (row: { [key: string]: any }) => {
   visible.value = true
   nextTick(() => {
-    flowFormEl.value.getFlowData(row.id)
-    flowFormEl.value.setFormValue(row.id)
+    flowFormEl.value.getFlowData(row.flowId)
   })
 }
+
+const getData = () => {
+  getRequest("getCopyFlow", {})
+      .then(res => {
+        tableData.value = res.list
+        dict.value = res.userDict
+      })
+}
+
+onMounted(() => {
+  getData()
+})
 </script>
 
 <style scoped>

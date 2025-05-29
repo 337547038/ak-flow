@@ -15,7 +15,7 @@ const list = {
   history: '已通过',
   active: '进行中',
   danger: '已拒绝',
-  info: '无需处理',
+  includes: '审批路线',
 }
 </script>
 

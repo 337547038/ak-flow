@@ -25,15 +25,15 @@ export default defineConfig({
   },
   server: {
     //https: true, // 是否开启 https
-   /* port: 3000,
+    //port: 3000,
     host: '0.0.0.0',
     open: false,
     proxy: {
       '/api': {
-        target: 'http://localhost:8089',
+        target: 'http://localhost:8081',
         //target: 'http://localhost:3001',
         changeOrigin: true
       }
-    }*/
+    }
   }
 })
