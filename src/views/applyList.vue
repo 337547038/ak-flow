@@ -21,7 +21,7 @@ const click = (row) => {
 }
 const dataList = ref([])
 const getDataList = () => {
-  getRequest('getDesignFlow',{})
+  getRequest('getDesignFlow',{status:1})
       .then(({list}) => {
         dataList.value = list.reduce((acc, item) => {
           const classify = item.classify;

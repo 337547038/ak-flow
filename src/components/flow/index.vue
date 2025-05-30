@@ -94,10 +94,10 @@ const initFlow = () => {
     "nodes": [{
       "id": "start",
       "type": "start",
-      "x": 394,
-      "y": 335,
+      "x": 264,
+      "y": 164,
       "properties": {"width": 40, "height": 40},
-      "text": {"x": 394, "y": 335, "value": "开始"}
+      "text": {"x": 264, "y": 164, "value": "开始"}
     }], "edges": []
   })
   // 添加左则拖拽面板菜单
@@ -208,12 +208,12 @@ const setPropertiesText = (data: anyType) => {
  * data:{history:[],active:[]}
  */
 const setStatus = (data: anyType) => {
-  console.log(data.includes)
+  //console.log(data.includes)
   for (let key in data) {
     if (data[key]?.length) {
       for (let id in data[key]) {
-        console.log("key")
-        console.log(data[key][id])
+        //console.log("key")
+        //console.log(data[key][id])
         akFlow.value.setProperties(data[key][id], {status: key});
       }
     }

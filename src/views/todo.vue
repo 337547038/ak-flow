@@ -36,7 +36,7 @@
       </template>
     </el-table-column>
   </el-table>
-  <el-drawer v-model="visible" direction="rtl" size="80%" title="流程详情">
+  <el-drawer v-model="visible" direction="rtl" size="80%" title="流程详情" destroy-on-close>
     <flowForm ref="flowFormEl">
       <h3>审批意见</h3>
       <el-form>
@@ -65,7 +65,7 @@ import {ElMessage} from "element-plus";
 const flowFormEl = ref()
 
 const tableData = ref([])
-const dict=ref({})
+const dict = ref({})
 
 const getTitle = (row: { [key: string]: any }) => {
   return `${dict.value[row.userId]}发起的${row.name}`
@@ -74,7 +74,7 @@ const getCurrentNodeName = (currentNode: string) => {
   if (currentNode) {
     const nodes = JSON.parse(currentNode)
     for (const key in nodes) {
-      if (nodes[key].userId === getUserInfo().userId + '') {
+      if (nodes[key].userId?.split(',').includes(getUserInfo().userId + "")) {
         return nodes[key].nodeName
       }
     }
@@ -101,7 +101,7 @@ const getData = () => {
 
 const remark = ref()
 const submitClick = (type: number) => {
-  getRequest("submitApproval", {status: type, id: flowId.value,remark:remark.value})
+  getRequest("submitApproval", {status: type, id: flowId.value, remark: remark.value})
       .then(res => {
         ElMessage({
           message: '审批成功',

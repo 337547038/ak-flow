@@ -34,7 +34,7 @@
       </template>
     </el-table-column>
   </el-table>
-  <el-drawer v-model="visible" direction="rtl" size="80%" title="流程详情">
+  <el-drawer v-model="visible" direction="rtl" size="80%" title="流程详情" destroy-on-close>
     <flowForm ref="flowFormEl">
       <h3>审批意见</h3>
       <el-form :disabled="true">

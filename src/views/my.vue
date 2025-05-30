@@ -6,7 +6,7 @@
     <el-table-column
         type="selection"
         width="55"/>
-    <el-table-column prop="title" label="标题">
+    <el-table-column prop="title" label="标题" width="220">
       <template #default="{row}">
         {{ getTitle(row) }}
       </template>
@@ -41,7 +41,7 @@
       </template>
     </el-table-column>
   </el-table>
-  <el-drawer v-model="visible" direction="rtl" size="80%" title="流程详情">
+  <el-drawer v-model="visible" direction="rtl" size="80%" title="流程详情" destroy-on-close>
     <flowForm ref="flowFormEl"/>
   </el-drawer>
 </template>

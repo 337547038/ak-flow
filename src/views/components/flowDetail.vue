@@ -8,9 +8,8 @@
             ref="flowFormEl"
             :disabled="detail"
             @submit="formSubmit"/>
-        <!-- 在线设计的表单
-        <ak-design-form v-if="formType==='0'"></ak-design-form>
-        -->
+        <div v-if="formType===0">可自行集成ak-design的拖拽表单<br>
+          https://337547038.github.io/vue-form-design/#/design/form</div>
         <slot></slot>
       </el-tab-pane>
       <el-tab-pane label="流程图" name="flow">
@@ -118,7 +117,11 @@ const tabChange = (name: string) => {
 
 defineExpose({getFlowData, getFlowDesignDetail})
 onMounted(() => {
-
+  let pageType = ''
+  if (props.detail) {
+    pageType = 'detail'
+  }
+  window.sessionStorage.setItem("pageType", pageType)
 })
 
 </script>

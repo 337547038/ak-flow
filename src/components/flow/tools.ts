@@ -13,10 +13,15 @@ export const getNodeStroke = (state: string | undefined, nodeType?: string) => {
         case 'includes':
             return '#91cc75'
         default:
-            if (nodeType === 'sysTask') {
-                return '#73c0de'
+            const pageType = window.sessionStorage.getItem('pageType')
+            if (pageType === 'detail') {
+                return '#ccc'
             } else {
-                return '#1b7fff'
+                if (nodeType === 'sysTask') {
+                    return '#73c0de'
+                } else {
+                    return '#1b7fff'
+                }
             }
     }
 

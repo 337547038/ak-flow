@@ -58,6 +58,7 @@ const submitFlow = (data: string) => {
 
 onMounted(() => {
   getFlowData()
+  window.sessionStorage.setItem("pageType", "")
 })
 </script>
 

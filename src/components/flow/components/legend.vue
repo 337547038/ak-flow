@@ -4,6 +4,9 @@
       <li v-for="(item,key) in list" :key="key" :style="{color:getNodeStroke(key)}">
         <i :style="{background:getNodeStroke(key)}"></i>{{ item }}
       </li>
+      <li style="color: #999">
+        <i style="background: #999"></i>不满足条件
+      </li>
     </ul>
   </div>
 </template>

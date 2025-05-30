@@ -106,7 +106,7 @@
             <el-option :value="1" label="本地表单"></el-option>
           </el-select>
         </el-form-item>
-        <div style="display: flex;justify-content: flex-end;margin-bottom: 18px">
+        <div style="display: flex;justify-content: flex-end;margin-bottom: 18px" v-show="formData.formType===0">
           <el-button type="primary" link @click="addForm">新建表单</el-button>
         </div>
         <el-form-item label="选择表单" prop="form">

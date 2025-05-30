@@ -26,7 +26,7 @@
               选择/修改{{ userTypeList[flowData.userType] }}
             </el-button>
           </el-form-item>
-          <el-form-item>
+          <el-form-item v-show="['1','2'].includes(flowData.userType)">
             <el-tag style="margin-right: 5px" closable
                     v-for="(item,index) in userTagList"
                     :key="item.id"
