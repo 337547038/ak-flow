@@ -49,18 +49,24 @@ const userName = ref()
 const userList = ref([])
 const getUserList = () => {
   getRequest("getUserList", {}).then(res => {
-    userList.value = res.list
+    userList.value = res.list || []
+    const userInfo = window.localStorage.getItem('userInfo')
+    if (!userInfo) {
+      window.localStorage.setItem("userInfo", JSON.stringify(res.list[0]))
+      userName.value = userList.value[0]?.userName
+    }else {
+      const obj = JSON.parse(userInfo)
+      userName.value = obj.userName
+    }
   })
 }
 const changeUser = (obj: any) => {
-  window.localStorage.setItem("userInfo", JSON.stringify({userId: obj.id, userName: obj.userName}))
+  window.localStorage.setItem("userInfo", JSON.stringify(obj))
   userName.value = obj.userName
 }
 
 onMounted(() => {
   getUserList()
-  userName.value = 'user'
-  window.localStorage.setItem("userInfo", JSON.stringify({userId: 4, userName: 'user'}))
 })
 
 </script>

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {getUserInfo} from "./index";
 
 const service = axios.create({
     baseURL: '',
@@ -7,18 +8,13 @@ const service = axios.create({
 })
 
 service.interceptors.request.use((config: any) => {
-    const userInfo = window.localStorage.getItem('userInfo')
-    console.log("userInfo")
-    console.log(userInfo)
-    if (userInfo) {
-        config.headers['Authorization'] = JSON.parse(userInfo).userId
-    }
+    config.headers['Authorization'] = getUserInfo()?.id || ""
 
     return config
 })
 service.interceptors.response.use(
-    (res: any) => {
-        return res.data.data
+    (res: any) => {2
+        return res.data?.data
     },
     (error: any) => {
         return Promise.reject(error)

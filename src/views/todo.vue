@@ -6,7 +6,7 @@
     <el-table-column
         type="selection"
         width="55"/>
-    <el-table-column prop="title" label="标题">
+    <el-table-column prop="title" label="标题" width="200">
       <template #default="{row}">
         {{ getTitle(row) }}
       </template>
@@ -74,7 +74,7 @@ const getCurrentNodeName = (currentNode: string) => {
   if (currentNode) {
     const nodes = JSON.parse(currentNode)
     for (const key in nodes) {
-      if (nodes[key].userId?.split(',').includes(getUserInfo().userId + "")) {
+      if (nodes[key].userId?.split(',').includes(getUserInfo().id + "")) {
         return nodes[key].nodeName
       }
     }

@@ -6,7 +6,7 @@
     <el-table-column
         type="selection"
         width="55"/>
-    <el-table-column prop="title" label="标题">
+    <el-table-column prop="title" label="标题" width="200">
       <template #default="{row}">
         {{ getTitle(row) }}
       </template>
