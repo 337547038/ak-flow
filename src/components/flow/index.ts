@@ -4,7 +4,8 @@
  * 友情售价：18元
  */
 
-import Flow from './flow'
+// @ts-ignore
+import Flow from './flow.js'
 import './flow.css'
 
 export default Flow
