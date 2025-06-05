@@ -1,0 +1,1 @@
+{"code":200,"data":{"total":5,"list":[{"id":1,"userName":"user","leaderId":3},{"id":2,"userName":"user2","leaderId":1},{"id":3,"userName":"manage","leaderId":2},{"id":4,"userName":"admin","leaderId":0},{"id":5,"userName":"hr","leaderId":3}]}}

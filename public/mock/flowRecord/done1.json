@@ -1,0 +1,1 @@
+{"code":200,"data":{"total":4,"userDict":{"1":"user","2":"user2"},"list":[{"dateTime":"2025-06-05 11:44:10","nodeName":"主管审批","d_name":"请假申请","d_classify":1,"id":50,"flowId":30,"userId":2},{"dateTime":"2025-06-05 11:37:19","nodeName":"用户任务","d_name":"通用流程审批","d_classify":4,"id":47,"flowId":28,"userId":1}]}}

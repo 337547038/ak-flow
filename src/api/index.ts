@@ -1,5 +1,5 @@
 import request from '../utils/request'
-import {getUserInfo} from "../utils";
+// import {getUserInfo} from "../utils";
 
 const allApi: any = {
     saveDesignFlow: 'flow/design/save',
@@ -20,26 +20,26 @@ const allApi: any = {
     submitApproval: "flow/approval"
 }
 
-/* 使用后端接口时
+// 使用后端接口时
 export default (apiKey: string, data?: { [key: string]: any }) => {
     return request({
         url: `api/${allApi[apiKey] || apiKey}`,
         method: 'POST',
         data
     })
-}*/
+}
 
 // 使用json演示数据
-export default (apiKey: string, data?: { [key: string]: any }) => {
+/*export default (apiKey: string, data?: { [key: string]: any }) => {
     const id: string = data?.id || ''
     const includesApi = "flow/my,flow/todo,flowRecord/done,flowRecord/copy"
     let userId: string = "";
     if (includesApi.split(',').includes(allApi[apiKey] || apiKey)) {
-        userId = getUserInfo().userId;
+        userId = getUserInfo().id;
     }
     return request({
         url: `mock/${allApi[apiKey] || apiKey}${userId}${id}.json`,
         method: 'get',
         data
     })
-}
+}*/
