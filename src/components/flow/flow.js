@@ -32932,36 +32932,43 @@ zt.getAdapter = AE.getAdapter;
 zt.HttpStatusCode = qf;
 zt.default = zt;
 const {
-  Axios: sH,
-  AxiosError: lH,
-  CanceledError: uH,
-  isCancel: cH,
-  CancelToken: dH,
-  VERSION: fH,
-  all: hH,
-  Cancel: pH,
-  isAxiosError: vH,
-  spread: gH,
-  toFormData: yH,
-  AxiosHeaders: mH,
-  HttpStatusCode: _H,
-  formToJSON: bH,
-  getAdapter: xH,
-  mergeConfig: EH
-} = zt, Cp = zt.create({
+  Axios: lH,
+  AxiosError: uH,
+  CanceledError: cH,
+  isCancel: dH,
+  CancelToken: fH,
+  VERSION: hH,
+  all: pH,
+  Cancel: vH,
+  isAxiosError: gH,
+  spread: yH,
+  toFormData: mH,
+  AxiosHeaders: _H,
+  HttpStatusCode: bH,
+  formToJSON: xH,
+  getAdapter: EH,
+  mergeConfig: wH
+} = zt, A6 = () => {
+  const t = window.localStorage.getItem("userInfo");
+  if (t)
+    return JSON.parse(t);
+}, Cp = zt.create({
   baseURL: "",
   // timeout: 30000, // request timeout
   headers: {}
 });
 Cp.interceptors.request.use((t) => {
-  const e = window.localStorage.getItem("userInfo");
-  return console.log("userInfo"), console.log(e), e && (t.headers.Authorization = JSON.parse(e).userId), t;
+  var e;
+  return t.headers.Authorization = ((e = A6()) == null ? void 0 : e.id) || "", t;
 });
 Cp.interceptors.response.use(
-  (t) => t.data.data,
+  (t) => {
+    var e;
+    return (e = t.data) == null ? void 0 : e.data;
+  },
   (t) => Promise.reject(t)
 );
-const A6 = {
+const O6 = {
   saveDesignFlow: "flow/design/save",
   getDesignFlow: "flow/design/list",
   editDesignFlow: "flow/design/edit",
@@ -32978,14 +32985,11 @@ const A6 = {
   getCopyFlow: "flowRecord/copy",
   getRecordById: "flowRecord/get",
   submitApproval: "flow/approval"
-}, O6 = (t, e) => {
-  const n = `api/${A6[t]}`;
-  return Cp({
-    url: n,
-    method: "POST",
-    data: e
-  });
-}, C6 = { style: { "padding-top": "20px", display: "flex", "justify-content": "flex-end" } }, T6 = /* @__PURE__ */ Kt({
+}, C6 = (t, e) => Cp({
+  url: `api/${O6[t]}`,
+  method: "POST",
+  data: e
+}), T6 = { style: { "padding-top": "20px", display: "flex", "justify-content": "flex-end" } }, N6 = /* @__PURE__ */ Kt({
   __name: "userSelect",
   emits: ["confirm"],
   setup(t, { expose: e, emit: n }) {
@@ -33005,7 +33009,7 @@ const A6 = {
         });
     };
     return e({ open: () => {
-      i.value = !0, O6("getUserList", {}).then((c) => {
+      i.value = !0, C6("getUserList", {}).then((c) => {
         o.value = c.list;
       });
     } }), (c, d) => {
@@ -33045,7 +33049,7 @@ const A6 = {
             ]),
             _: 1
           }, 8, ["data"]),
-          mt("div", C6, [
+          mt("div", T6, [
             Te(h, {
               type: "primary",
               onClick: l
@@ -33069,7 +33073,7 @@ const A6 = {
       }, 8, ["modelValue"]);
     };
   }
-}), N6 = { class: "flow-drawer" }, M6 = /* @__PURE__ */ Kt({
+}), M6 = { class: "flow-drawer" }, P6 = /* @__PURE__ */ Kt({
   __name: "drawer",
   props: {
     disabled: { type: Boolean, default: !1 }
@@ -33132,7 +33136,7 @@ const A6 = {
           "append-to-body": !0
         }, {
           default: Be(() => [
-            mt("div", N6, [
+            mt("div", M6, [
               Te(D, { disabled: y.disabled }, {
                 default: Be(() => [
                   Te(A, { label: "节点id" }, {
@@ -33292,7 +33296,7 @@ const A6 = {
           ]),
           _: 1
         }, 8, ["modelValue"]),
-        Te(T6, {
+        Te(N6, {
           ref_key: "userSelectEl",
           ref: d,
           onConfirm: v
@@ -33314,7 +33318,7 @@ const A6 = {
       return window.sessionStorage.getItem("pageType") === "detail" ? "#ccc" : e === "sysTask" ? "#73c0de" : "#1b7fff";
   }
 };
-let P6 = class extends pa {
+let D6 = class extends pa {
   initNodeData(e) {
     super.initNodeData(e), this.r = 20;
   }
@@ -33322,14 +33326,14 @@ let P6 = class extends pa {
     const e = super.getNodeStyle();
     return e.stroke = $i(this.properties.status), e;
   }
-}, D6 = class extends ga {
+}, R6 = class extends ga {
 };
-const R6 = {
+const L6 = {
   type: "start",
-  view: D6,
-  model: P6
+  view: R6,
+  model: D6
 };
-let L6 = class extends pa {
+let I6 = class extends pa {
   initNodeData(e) {
     super.initNodeData(e), this.r = 20;
   }
@@ -33337,7 +33341,7 @@ let L6 = class extends pa {
     const e = super.getNodeStyle();
     return e.stroke = $i(this.properties.status), e;
   }
-}, I6 = class extends ga {
+}, k6 = class extends ga {
   getLabelShape() {
     const { model: e } = this.props, { x: n, y: r, width: i, height: o } = e, a = e.getNodeStyle();
     return be(
@@ -33368,11 +33372,11 @@ let L6 = class extends pa {
     ]);
   }
 };
-const k6 = {
+const B6 = {
   type: "end",
-  view: I6,
-  model: L6
-}, B6 = { class: "flow-html-content" }, j6 = { class: "label" }, F6 = { class: "content" }, $6 = /* @__PURE__ */ Kt({
+  view: k6,
+  model: I6
+}, j6 = { class: "flow-html-content" }, F6 = { class: "label" }, $6 = { class: "content" }, H6 = /* @__PURE__ */ Kt({
   __name: "content",
   setup(t, { expose: e }) {
     UE((o) => ({
@@ -33386,16 +33390,16 @@ const k6 = {
     }), r = Nt(() => $i(n.status, n.nodeType));
     return e({ updateProps: ({ nodeName: o, userName: a, status: s, nodeType: l }) => {
       n.nodeName = o, n.userName = a, n.status = s, n.nodeType = l;
-    } }), (o, a) => (_t(), Vt("div", B6, [
-      mt("div", j6, Pi(n.nodeName), 1),
-      mt("div", F6, [
+    } }), (o, a) => (_t(), Vt("div", j6, [
+      mt("div", F6, Pi(n.nodeName), 1),
+      mt("div", $6, [
         a[0] || (a[0] = mt("p", { class: "gray" }, "参与人：", -1)),
         mt("p", null, Pi(n.userName), 1)
       ])
     ]));
   }
-}), H6 = /* @__PURE__ */ Fc($6, [["__scopeId", "data-v-40479613"]]);
-let U6 = class extends _u {
+}), U6 = /* @__PURE__ */ Fc(H6, [["__scopeId", "data-v-40479613"]]);
+let G6 = class extends _u {
   constructor() {
     super(...arguments);
     qc(this, "app");
@@ -33416,7 +33420,7 @@ let U6 = class extends _u {
           super(props);
   
       }*/
-}, G6 = class extends wu {
+}, z6 = class extends wu {
   setHtml(e) {
     const n = this.props.model.getProperties(), r = {
       nodeName: n.nodeName,
@@ -33428,17 +33432,17 @@ let U6 = class extends _u {
     if (!this.isMounted) {
       this.isMounted = !0;
       const i = document.createElement("div");
-      e.innerHTML = "", e.appendChild(i), this.app = zE(H6).mount(i);
+      e.innerHTML = "", e.appendChild(i), this.app = zE(U6).mount(i);
     }
     this.app.updateProps(r);
   }
 };
 const Nm = {
   // type: "task",
-  view: G6,
-  model: U6
+  view: z6,
+  model: G6
 };
-let z6 = class extends Bs {
+let W6 = class extends Bs {
   initNodeData(e) {
     super.initNodeData(e), this.points = [
       [25, 0],
@@ -33452,7 +33456,7 @@ let z6 = class extends Bs {
     return e.stroke = $i(this.properties.status), e;
   }
 };
-class W6 extends Fs {
+class X6 extends Fs {
   getShape() {
     const { model: e } = this.props, { x: n, y: r, width: i, height: o, points: a } = e, s = e.getNodeStyle();
     return be(
@@ -33473,37 +33477,37 @@ class W6 extends Fs {
     );
   }
 }
-const X6 = {
+const Y6 = {
   type: "condition",
-  view: W6,
-  model: z6
+  view: X6,
+  model: W6
 };
-class Y6 extends yp.view {
+class V6 extends yp.view {
 }
-class V6 extends yp.model {
+class K6 extends yp.model {
   getNodeStyle() {
     const e = super.getNodeStyle();
     return e.stroke = $i(this.properties.status), e.strokeDasharray = "3 3", e.strokeWidth = 1, e;
   }
 }
-const K6 = {
+const q6 = {
   type: "subProcess",
-  model: V6,
-  view: Y6
+  model: K6,
+  view: V6
 };
-class q6 extends ha {
+class Z6 extends ha {
   getEdgeStyle() {
     const e = super.getEdgeStyle();
     return e.stroke = $i(this.properties.status), e;
   }
 }
-const Z6 = {
+const J6 = {
   type: "connection",
   view: ya,
-  model: q6
-}, J6 = (t) => {
-  t.register(R6), t.register(k6), t.register({ ...Nm, type: "userTask" }), t.register({ ...Nm, type: "sysTask" }), t.register(X6), t.register(K6), t.register(Z6), t.setDefaultEdgeType("connection");
-}, Q6 = { class: "legend" }, eH = /* @__PURE__ */ Kt({
+  model: Z6
+}, Q6 = (t) => {
+  t.register(L6), t.register(B6), t.register({ ...Nm, type: "userTask" }), t.register({ ...Nm, type: "sysTask" }), t.register(Y6), t.register(q6), t.register(J6), t.setDefaultEdgeType("connection");
+}, eH = { class: "legend" }, tH = /* @__PURE__ */ Kt({
   __name: "legend",
   setup(t) {
     const e = {
@@ -33512,7 +33516,7 @@ const Z6 = {
       danger: "已拒绝",
       includes: "审批路线"
     };
-    return (n, r) => (_t(), Vt("div", Q6, [
+    return (n, r) => (_t(), Vt("div", eH, [
       mt("ul", null, [
         (_t(), Vt(io, null, Pd(e, (i, o) => mt("li", {
           key: o,
@@ -33530,7 +33534,7 @@ const Z6 = {
       ])
     ]));
   }
-}), tH = /* @__PURE__ */ Fc(eH, [["__scopeId", "data-v-4d26dd68"]]), nH = { class: "flow-container" }, MH = /* @__PURE__ */ Kt({
+}), nH = /* @__PURE__ */ Fc(tH, [["__scopeId", "data-v-4d26dd68"]]), rH = { class: "flow-container" }, PH = /* @__PURE__ */ Kt({
   __name: "index",
   props: {
     isSilentMode: { type: Boolean, default: !1 }
@@ -33560,7 +33564,7 @@ const Z6 = {
         }*/
         isSilentMode: r.isSilentMode
       });
-      J6(m), m.render({
+      Q6(m), m.render({
         nodes: [{
           id: "start",
           type: "start",
@@ -33649,7 +33653,7 @@ const Z6 = {
       Zu(() => {
         c(), v();
       });
-    }), (m, _) => (_t(), Vt("div", nH, [
+    }), (m, _) => (_t(), Vt("div", rH, [
       mt("div", {
         id: "container",
         ref_key: "containerEl",
@@ -33666,7 +33670,7 @@ const Z6 = {
         ref_key: "dataDialogEl",
         ref: s
       }, null, 512),
-      Te(M6, {
+      Te(P6, {
         ref_key: "drawerEl",
         ref: u,
         disabled: m.isSilentMode
@@ -33675,10 +33679,10 @@ const Z6 = {
         ref_key: "importDataEl",
         ref: l
       }, null, 512),
-      m.isSilentMode ? (_t(), Sr(tH, { key: 0 })) : Ti("", !0)
+      m.isSilentMode ? (_t(), Sr(nH, { key: 0 })) : Ti("", !0)
     ]));
   }
 });
 export {
-  MH as default
+  PH as default
 };
