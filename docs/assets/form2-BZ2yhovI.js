@@ -1,0 +1,1 @@
+import{d as t,g as n,j as r,e as o}from"./index-CGLXuONG.js";const l=t({name:"测试表单",__name:"form2",setup(_){return(a,e)=>(r(),n("div",null,e[0]||(e[0]=[o("p",null,"本地表单可直接编辑src/components/flowForm目录下的vue文件，按实际需要自定义",-1),o("p",null,"可参考form1.vue",-1)])))}}),m=Object.freeze(Object.defineProperty({__proto__:null,default:l},Symbol.toStringTag,{value:"Module"}));export{m as _};
