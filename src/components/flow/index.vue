@@ -3,7 +3,7 @@
     <div id="container" ref="containerEl" class="flow-main"></div>
     <ControlMenu @click="controlClick" :undoAble="undoDisable" :redoAble="redoDisable" :isSilentMode="isSilentMode"/>
     <DataDialog ref="dataDialogEl"/>
-    <Drawer ref="drawerEl" :disabled="isSilentMode"/>
+    <Drawer ref="drawerEl" :disabled="isSilentMode" :sourceApply="sourceApply"/>
     <importDialog ref="importDataEl"/>
     <Legend v-if="isSilentMode"/>
 
@@ -27,6 +27,7 @@ import {anyType} from './types'
 const props = withDefaults(
     defineProps<{
       isSilentMode?: boolean // 不能编辑
+      sourceApply?: boolean // 是否来自于发起申请页
     }>(),
     {
       isSilentMode: false //只读模式
@@ -195,7 +196,7 @@ const setPropertiesText = (data: anyType) => {
       updateVal = {...properties, nodeName: text}
     }
     // 编辑模式不修改保存
-    if (!props.isSilentMode) {
+    if (props.sourceApply || !props.isSilentMode) {
       akFlow.value.setProperties(data.id, updateVal)
       // 更新显示的名称
       akFlow.value.updateText(data.id, text)
@@ -220,11 +221,15 @@ const setStatus = (data: anyType) => {
   }
 }
 //渲染流程图
-const render = (data: anyType) => {
+const render = (data: anyType, approver:anyType) => {
   akFlow.value.render(data)
 }
 
-defineExpose({render, setStatus})
+const getDesignFlowData = () => {
+  return akFlow.value.getGraphData()
+}
+
+defineExpose({render, setStatus, getDesignFlowData})
 
 onMounted(() => {
   nextTick(() => {

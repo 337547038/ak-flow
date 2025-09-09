@@ -8,10 +8,10 @@
       <el-button @click="controlClick('undo')" :disabled="undoAble">上一步</el-button>
       <el-button @click="controlClick('redo')" :disabled="redoAble">下一步</el-button>
       <el-button @click="controlClick('download')">下载图片</el-button>
-      <el-button @click="controlClick('clear')">清空</el-button>
+      <el-button @click="controlClick('clear')" v-if="!isSilentMode">清空</el-button>
       <el-button @click="controlClick('data')">查看数据</el-button>
       <el-button @click="controlClick('map')">查看缩略图</el-button>
-      <el-button @click="controlClick('import')">导入</el-button>
+      <el-button @click="controlClick('import')" v-if="!isSilentMode">导入</el-button>
       <el-button @click="controlClick('save')" v-if="!isSilentMode">保存</el-button>
     </el-button-group>
   </div>

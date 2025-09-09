@@ -2,16 +2,16 @@
   <el-drawer v-model="visible" direction="rtl" title="设置节点属性" size="500px" modal-class="flow-modal-class"
              :append-to-body="true">
     <div class="flow-drawer">
-      <el-form :disabled="disabled">
+      <el-form>
         <el-form-item label="节点id">
           <el-input v-model="flowNodeId" disabled></el-input>
         </el-form-item>
         <el-form-item label="显示名称">
-          <el-input placeholder="请输入显示名称" v-model="nodeText"></el-input>
+          <el-input placeholder="请输入显示名称" v-model="nodeText" :disabled="disabled"></el-input>
         </el-form-item>
         <template v-if="['userTask','sysTask'].includes(nodeType)">
           <el-form-item label="节点审批人">
-            <el-radio-group v-model="flowData.userType" @change="userTypeChange">
+            <el-radio-group v-model="flowData.userType" @change="userTypeChange" :disabled="disabled">
               <el-radio
                   v-for="(item, key) in userTypeList"
                   :key="key"
@@ -21,13 +21,19 @@
               </el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item v-if="['1','2'].includes(flowData.userType)">
-            <el-button type="primary" @click="selectClick">
+          <el-form-item v-if="['1'].includes(flowData.userType)">
+            <el-button type="primary" @click="selectClick" :disabled="disabled">
               选择/修改{{ userTypeList[flowData.userType] }}
             </el-button>
           </el-form-item>
-          <el-form-item v-show="['1','2'].includes(flowData.userType)">
-            <el-tag style="margin-right: 5px" closable
+          <el-form-item v-if="['4'].includes(flowData.userType)&&sourceApply">
+            <el-button type="primary" @click="selectClick">
+              选择/修改审批人
+            </el-button>
+          </el-form-item>
+          <el-form-item v-show="['1','4'].includes(flowData.userType)&&userTagList.length>0">
+            <el-tag style="margin-right: 5px"
+                    :closable="(flowData.userType==='1'&&!disabled)||(flowData.userType==='4'&&sourceApply)"
                     v-for="(item,index) in userTagList"
                     :key="item.id"
                     @close="tagClose(index)">
@@ -72,9 +78,10 @@ import {ref} from 'vue'
 import UserSelect from './userSelect.vue'
 import {ElMessage} from "element-plus";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
       disabled?: boolean
+      sourceApply?: boolean // 是否来自于发起申请页
     }>(),
     {
       disabled: false
@@ -106,9 +113,9 @@ const open = (data: any, callback: Function) => {
   nodeType.value = data.type
   callbackFn.value = callback
   const joinName = data.properties.joinName
+  const joinUserId = data.properties.joinUserId
   userTagList.value = []
-  if (joinName) {
-    const joinUserId = data.properties.joinUserId || ''
+  if (joinName && joinUserId) {
     const userIdSplit = joinUserId.split(',')
     joinName.split(',').forEach((item, index) => {
       userTagList.value.push({userName: item, id: userIdSplit[index]})
@@ -117,8 +124,11 @@ const open = (data: any, callback: Function) => {
 
 }
 const confirmClick = () => {
-  //节点审批人选择了指定成员和指定角色时，显示具体选择的，否则参与人处显示领导名
-  if (['1', '2'].includes(flowData.value.userType)) {
+  //节点审批人选择了指定成员或自选时，显示具体选择的，否则参与人处显示领导名
+  const userType = flowData.value.userType
+  flowData.value.joinUserId = ''
+  flowData.value.joinName = ''
+  if (userType === '1' || (userType === '4' && props.sourceApply)) {
     if (userTagList.value?.length) {
       const name = []
       const ids = []
@@ -135,7 +145,6 @@ const confirmClick = () => {
       })
       return false
     }
-
   } else {
     flowData.value.joinName = userTypeList[flowData.value.userType]
   }
