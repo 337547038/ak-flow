@@ -16,12 +16,12 @@ const route = useRoute()
 
 const flowFormDetailEl = ref()
 
-const submit = (val: string) => {
+const submit = (val: string, approver: string) => {
   const data = {
     userId: getUserInfo().id, // 申请人id 这里没会员登录暂固定为1
     formContent: val,
     flowId: route.query.id,
-    approver: '' // 如果有用户自定的选择人
+    approver: approver // 如果有用户自定的选择人
   }
   getRequest('saveFlow', data)
       .then(() => {

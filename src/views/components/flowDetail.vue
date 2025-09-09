@@ -9,11 +9,12 @@
             :disabled="detail"
             @submit="formSubmit"/>
         <div v-if="formType===0">可自行集成ak-design的拖拽表单<br>
-          https://337547038.github.io/vue-form-design/#/design/form</div>
+          https://337547038.github.io/vue-form-design/#/design/form
+        </div>
         <slot></slot>
       </el-tab-pane>
       <el-tab-pane label="流程图" name="flow">
-        <flow-design :isSilentMode="true" ref="flowDesignEl"/>
+        <flow-design :isSilentMode="true" ref="flowDesignEl" :sourceApply="!detail"/>
       </el-tab-pane>
       <el-tab-pane label="审批记录" v-if="detail" name="recoder">
         <RecordList ref="recoderListEl"/>
@@ -27,6 +28,7 @@ import {ref, onMounted, markRaw, nextTick} from 'vue'
 import getRequest from '@/api/index'
 import FlowDesign from "@/components/flow/index";
 import RecordList from './record.vue'
+import {ElMessage} from "element-plus";
 
 const props = withDefaults(
     defineProps<{
@@ -37,7 +39,7 @@ const props = withDefaults(
     }
 )
 const emits = defineEmits<{
-  (e: 'submit', value: string): void
+  (e: 'submit', value: string, approver: string): void
 }>()
 const flowDesignEl = ref();
 const flowFormEl = ref();
@@ -53,17 +55,29 @@ const getFlowData = (id: string) => {
   getRequest('getFlowById', {id: id})
       .then(async data => {
         nodeStatus.value = data.nodeStatus
-        await getFlowDesignDetail(data.flowId)
+        await getFlowDesignDetail(data.flowId, data.approver)
         // 恢复表单填写的值
         flowFormEl.value.setValue(JSON.parse(data.formContent))
       })
 }
-const getFlowDesignDetail = (id: number) => {
+const getFlowDesignDetail = (flowId:number, approver?: string) => {
   return new Promise((resolve, reject) => {
-    getRequest('getDesignFlowById', {id: id})
+    getRequest('getDesignFlowById', {id: flowId})
         .then(async data => {
           formType.value = data.formType
-          flowDesignEl.value.render(JSON.parse(data.content))
+          // 如果有自选审批人的，则将自选的合并进去,以恢复显示
+          const designFlowData = JSON.parse(data.content)
+          if (approver) {
+            const jsonApprover = JSON.parse(approver)
+            designFlowData.nodes.forEach(item => {
+              const key = jsonApprover[item.id]
+              if (key && item.properties.userType === '4') {
+                item.properties.joinName = key.name
+                item.properties.joinUserId = key.id
+              }
+            })
+          }
+          flowDesignEl.value.render(designFlowData)
           await getFormComponent(data)
           resolve()
         })
@@ -85,7 +99,30 @@ const getFormComponent = (data) => {
 }
 
 const formSubmit = (val: { [key: string]: any }) => {
-  emits("submit", JSON.stringify(val))
+  // 检查流程图是否存在自选人的情况
+  const flowData = flowDesignEl.value.getDesignFlowData()
+  const temp = []
+  const approver = {} // 审批信息
+  flowData.nodes?.forEach(item => {
+    if (['userTask', 'sysTask'].includes(item.type)) {
+      const {userType, joinUserId, nodeName, joinName} = item.properties || {}
+      if (userType === '4' && !joinUserId) {
+        // 发起人自选,没有选择用户时
+        temp.push(`审批节点：${nodeName}需要选择审批人`)
+      }
+      if (userType === '4' && joinUserId) {
+        approver[item.id] = {id: joinUserId, name: joinName}
+      }
+    }
+  })
+  if (temp.length > 0) {
+    ElMessage({
+      message: temp[0],
+      type: 'error',
+    })
+  } else {
+    emits("submit", JSON.stringify(val), JSON.stringify(approver))
+  }
 }
 const recoderListEl = ref()
 /**

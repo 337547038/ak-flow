@@ -54,7 +54,7 @@ const getUserList = () => {
     if (!userInfo) {
       window.localStorage.setItem("userInfo", JSON.stringify(res.list[0]))
       userName.value = userList.value[0]?.userName
-    }else {
+    } else {
       const obj = JSON.parse(userInfo)
       userName.value = obj.userName
     }

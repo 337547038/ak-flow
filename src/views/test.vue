@@ -11,10 +11,10 @@ import task from "@/components/flow/node/start";
 
 const click = () => {
   const data = {
-    "userId": 4,
-    "formContent": "{\"type\":\"2\",\"startDate\":\"2025-04-30T16:00:00.000Z\",\"endDate\":\"2025-05-01T16:00:00.000Z\",\"day\":\"15\",\"remark\":\"15\"}",
-    "flowId": "4",
-    "approver": ""
+    "userId": 1,
+    "formContent": "{\"remark\":\"78\"}",
+    "flowId": "11",
+    "approver": "{\"f55a538b-0b5d-46e0-adf4-51fdc0b3b81f\":\"3\"}"
   }
   getRequest('flow/save', data)
       .then(() => {
