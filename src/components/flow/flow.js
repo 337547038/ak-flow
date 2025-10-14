@@ -3,6 +3,13 @@ var PE = (t, e, n) => e in t ? ME(t, e, { enumerable: !0, configurable: !0, writ
 var qc = (t, e, n) => PE(t, typeof e != "symbol" ? e + "" : e, n);
 import * as Ei from "vue";
 import { defineComponent as Kt, resolveComponent as Zt, createElementBlock as Vt, openBlock as ft, createVNode as Ne, withCtx as ke, createBlock as Ln, createCommentVNode as Tr, createTextVNode as vt, getCurrentInstance as ea, inject as qo, ref as lt, computed as Nt, unref as Ye, readonly as DE, getCurrentScope as RE, onScopeDispose as LE, onMounted as Zf, nextTick as Zu, watch as Ju, isRef as IE, warn as kE, provide as BE, mergeProps as jE, renderSlot as Es, createElementVNode as _t, normalizeClass as Si, Transition as Mm, withDirectives as Jf, normalizeStyle as Vl, toDisplayString as Pi, vShow as Qf, shallowReactive as FE, resolveDynamicComponent as $E, Fragment as io, withModifiers as HE, isVNode as Pm, render as Mp, renderList as Pd, useCssVars as UE, reactive as GE, createApp as zE } from "vue";
+/*!
+ * ak-flow - 版权所有
+ * 版本: v1.1.0
+ * 当前文件源码暂不开放，如需源码可加微信 337547038 有偿提供
+ * 友情价：78元
+ * 创建时间: 2025-10
+ */
 var Qu, qe, Dm, oo, Pp, Rm, Lm, Im, eh, Dd, Rd, ws = {}, km = [], WE = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, Us = Array.isArray;
 function ui(t, e) {
   for (var n in e) t[n] = e[n];
