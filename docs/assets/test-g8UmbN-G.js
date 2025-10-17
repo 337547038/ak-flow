@@ -1,5 +1,1 @@
-<<<<<<<< HEAD:docs/assets/test-CnGFQHVr.js
-import{g as a}from"./index-BP2T5S1M.js";import{d as n,o as r,c,w as f,a as d,f as m,j as p,E as l}from"./index-CGLXuONG.js";const b=n({__name:"test",setup(u){const t=()=>{a("flow/save",{userId:1,formContent:'{"remark":"78"}',flowId:"11",approver:'{"f55a538b-0b5d-46e0-adf4-51fdc0b3b81f":"3"}'}).then(()=>{l({message:"保存成功",type:"success"})})};return r(()=>{}),(o,e)=>{const s=d("el-button");return p(),c(s,{onClick:t},{default:f(()=>e[0]||(e[0]=[m("submit")])),_:1})}}});export{b as default};
-========
 import{g as a}from"./index-CZvnLVXQ.js";import{d as n,o as r,c,w as f,a as d,f as m,j as p,E as l}from"./index-i59ZMC1g.js";const b=n({__name:"test",setup(u){const t=()=>{a("flow/save",{userId:1,formContent:'{"remark":"78"}',flowId:"11",approver:'{"f55a538b-0b5d-46e0-adf4-51fdc0b3b81f":"3"}'}).then(()=>{l({message:"保存成功",type:"success"})})};return r(()=>{}),(o,e)=>{const s=d("el-button");return p(),c(s,{onClick:t},{default:f(()=>e[0]||(e[0]=[m("submit")])),_:1})}}});export{b as default};
->>>>>>>> f818462 (示例):docs/assets/test-g8UmbN-G.js

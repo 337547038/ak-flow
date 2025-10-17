@@ -48,6 +48,10 @@ import getRequest from '@/api'
 const userName = ref()
 const userList = ref([])
 const getUserList = () => {
+  const isLoading = window.sessionStorage.getItem('getUserList')
+  if (isLoading) {
+    return
+  }
   getRequest("getUserList", {}).then(res => {
     userList.value = res.list || []
     const userInfo = window.localStorage.getItem('userInfo')
@@ -58,6 +62,7 @@ const getUserList = () => {
       const obj = JSON.parse(userInfo)
       userName.value = obj.userName
     }
+    window.sessionStorage.setItem('getUserList', 'isLoading')
   })
 }
 const changeUser = (obj: any) => {

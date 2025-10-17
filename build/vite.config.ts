@@ -29,7 +29,14 @@ export default defineConfig({
                 // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
                 globals: {
                     vue: 'Vue'
-                }
+                },
+                banner:`/*!
+ * ak-flow - 版权所有
+ * 版本: v1.1.0
+ * 当前文件源码暂不开放，如需源码可加微信 337547038 有偿提供
+ * 友情价：78元
+ * 创建时间: ${new Date().getFullYear()}-${new Date().getMonth() + 1}
+ */`
             }
         }
     }
